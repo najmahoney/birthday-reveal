@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { db, ref, set, onValue } from "./firebase";
 
 const ALL_EVENTS = [
   { id: "art-institute", emoji: "🎨", title: "The Art Institute of Chicago", time: "~2.5 hrs", tag: "Art" },
@@ -173,6 +174,123 @@ function Bucket({ bucket, events, onDrop, draggingId, onDragStart, selectedId, o
   );
 }
 
+/* ─── HEART CONFETTI ─── */
+function HeartConfetti({ active, count = 60 }) {
+  const [particles, setParticles] = useState([]);
+  useEffect(() => {
+    if (active) {
+      const colors = ["#7DB88A","#A8D5B0","#5B9E6F","#C8E6CF","#D4AF37","#F0E6A0","#8FBF9A","#B5D8BF","#6BAF7B","#E8D880"];
+      setParticles(Array.from({ length: count }, (_, i) => ({
+        id: i, x: Math.random()*100, y: -10-Math.random()*40,
+        size: 8+Math.random()*16, color: colors[Math.floor(Math.random()*colors.length)],
+        delay: Math.random()*2.5, duration: 3+Math.random()*3.5,
+        drift: (Math.random()-0.5)*50, rotation: Math.random()*360,
+        wobble: Math.random()*25, isHeart: Math.random()>0.3,
+      })));
+    }
+  }, [active, count]);
+  if (!active || !particles.length) return null;
+  return (
+    <div style={{ position:"fixed", inset:0, pointerEvents:"none", zIndex:9999, overflow:"hidden" }}>
+      {particles.map(p => (
+        <div key={p.id} style={{
+          position:"absolute", left:`${p.x}%`, top:`${p.y}%`, fontSize:`${p.size}px`, color:p.color,
+          animation:`heartFall ${p.duration}s ${p.delay}s ease-in forwards`,
+          "--drift":`${p.drift}px`, "--rotation":`${p.rotation}deg`, "--wobble":`${p.wobble}px`, opacity:0,
+        }}>{p.isHeart ? "♥" : "✦"}</div>
+      ))}
+    </div>
+  );
+}
+
+/* ─── SCRATCH CARD ─── */
+function ScratchCard({ onComplete }) {
+  const canvasRef = useRef(null);
+  const isDrawing = useRef(false);
+  const hasCompleted = useRef(false);
+  const [revealed, setRevealed] = useState(false);
+  const CARD_W = 320;
+  const CARD_H = 220;
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    canvas.width = CARD_W * 2;
+    canvas.height = CARD_H * 2;
+    ctx.scale(2, 2);
+    const grad = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+    grad.addColorStop(0, "#2a3a2e");
+    grad.addColorStop(0.3, "#1e2e22");
+    grad.addColorStop(0.7, "#2a3a2e");
+    grad.addColorStop(1, "#1a2a1e");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, CARD_W, CARD_H);
+    for (let i = 0; i < 120; i++) {
+      ctx.fillStyle = `rgba(${180+Math.random()*75}, ${200+Math.random()*55}, ${160+Math.random()*60}, ${0.03+Math.random()*0.06})`;
+      ctx.beginPath();
+      ctx.arc(Math.random() * CARD_W, Math.random() * CARD_H, 0.5 + Math.random() * 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = "rgba(168,213,176,0.5)";
+    ctx.font = "600 13px 'Nunito', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("SCRATCH TO REVEAL", CARD_W / 2, CARD_H / 2 - 10);
+    ctx.fillStyle = "rgba(168,213,176,0.25)";
+    ctx.font = "400 12px 'Nunito', sans-serif";
+    ctx.fillText("one more surprise...", CARD_W / 2, CARD_H / 2 + 14);
+  }, []);
+
+  const getPos = useCallback((e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = CARD_W / rect.width;
+    const scaleY = CARD_H / rect.height;
+    if (e.touches) return { x: (e.touches[0].clientX - rect.left) * scaleX, y: (e.touches[0].clientY - rect.top) * scaleY };
+    return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+  }, []);
+
+  const scratch = useCallback((pos) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.arc(pos.x * 2, pos.y * 2, 36, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+    const imageData = ctx.getImageData(0, 0, CARD_W * 2, CARD_H * 2);
+    let transparent = 0;
+    for (let i = 3; i < imageData.data.length; i += 4) { if (imageData.data[i] === 0) transparent++; }
+    const pct = (transparent / (imageData.data.length / 4)) * 100;
+    if (pct > 45 && !hasCompleted.current) {
+      hasCompleted.current = true;
+      setRevealed(true);
+      setTimeout(() => { ctx.clearRect(0, 0, CARD_W * 2, CARD_H * 2); onComplete?.(); }, 600);
+    }
+  }, [onComplete]);
+
+  const handleStart = useCallback((e) => { e.preventDefault(); isDrawing.current = true; scratch(getPos(e)); }, [getPos, scratch]);
+  const handleMove = useCallback((e) => { e.preventDefault(); if (!isDrawing.current) return; scratch(getPos(e)); }, [getPos, scratch]);
+  const handleEnd = useCallback(() => { isDrawing.current = false; }, []);
+
+  return (
+    <div style={{ position:"relative", width:CARD_W, height:CARD_H, borderRadius:16, overflow:"hidden",
+      boxShadow: revealed ? "0 0 60px rgba(212,175,55,0.3)" : "0 8px 40px rgba(0,0,0,0.4)",
+      transition:"box-shadow 0.8s ease",
+    }}>
+      <div style={{ position:"absolute", inset:0, background:"linear-gradient(145deg, #0f1a14, #142018)", border:"1px solid rgba(212,175,55,0.2)", borderRadius:16, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:6 }}>
+        <div style={{ fontSize:52, filter:"drop-shadow(0 4px 20px rgba(212,175,55,0.4))", animation: revealed ? "prizeReveal 0.8s cubic-bezier(.16,1,.3,1)" : "none" }}>📞</div>
+        <div style={{ fontFamily:"'Share Tech Mono', monospace", fontSize:22, fontWeight:600, color:"rgba(168,213,176,0.8)", letterSpacing:2 }}>1-800-CALL-YOUR-MAN</div>
+        <div style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:14, fontStyle:"italic", color:"rgba(168,213,176,0.4)", letterSpacing:1, opacity: revealed ? 1 : 0, transition:"opacity 0.6s 0.5s ease" }}>open 24/7, just for you</div>
+      </div>
+      <canvas ref={canvasRef} style={{ position:"absolute", inset:0, width:CARD_W, height:CARD_H, borderRadius:16, cursor:"crosshair", touchAction:"none", opacity: revealed ? 0 : 1, transition:"opacity 0.6s ease" }}
+        onMouseDown={handleStart} onMouseMove={handleMove} onMouseUp={handleEnd} onMouseLeave={handleEnd}
+        onTouchStart={handleStart} onTouchMove={handleMove} onTouchEnd={handleEnd} />
+    </div>
+  );
+}
+
 export default function TripPlanner() {
   const [stage, setStage] = useState("login");
   const [assignments, setAssignments] = useState({});
@@ -183,6 +301,10 @@ export default function TripPlanner() {
   const [showWarning, setShowWarning] = useState(false);
   const [warningDismissed, setWarningDismissed] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [showScratch, setShowScratch] = useState(false);
+  const [scratchVisible, setScratchVisible] = useState(false);
+  const [prizeRevealed, setPrizeRevealed] = useState(false);
+  const [showPrizeConfetti, setShowPrizeConfetti] = useState(false);
 
   // Login state
   const [loginInput, setLoginInput] = useState("");
@@ -217,6 +339,16 @@ export default function TripPlanner() {
     }
   }, [stage]);
 
+  useEffect(() => {
+    if (showScratch) setTimeout(() => setScratchVisible(true), 400);
+  }, [showScratch]);
+
+  const handleScratchComplete = useCallback(() => {
+    setPrizeRevealed(true);
+    setShowPrizeConfetti(true);
+    setTimeout(() => setShowPrizeConfetti(false), 6000);
+  }, []);
+
   const handleLoginSubmit = () => {
     if (loginInput.trim().toLowerCase() === "bus") {
       setLoginSuccess(true); setLoginError(false);
@@ -227,42 +359,31 @@ export default function TripPlanner() {
     }
   };
 
-  // Load from shared storage
+  // Real-time Firebase listener — loads data AND syncs live updates
   useEffect(() => {
-    async function load() {
-      try {
-        const result = await window.storage.get("trip-planner-buckets", true);
-        if (result && result.value) {
-          setAssignments(JSON.parse(result.value));
-        }
-      } catch (e) {
-        // Key doesn't exist yet, start fresh
+    const bucketsRef = ref(db, "tripPlanner/assignments");
+    const unsubscribe = onValue(bucketsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setAssignments(data);
+      } else {
+        setAssignments({});
       }
       setLoaded(true);
-    }
-    load();
+    }, (error) => {
+      console.error("Firebase read failed:", error);
+      setLoaded(true);
+    });
+    return () => unsubscribe();
   }, []);
 
-  // Poll for updates from other viewers
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const result = await window.storage.get("trip-planner-buckets", true);
-        if (result && result.value) {
-          setAssignments(JSON.parse(result.value));
-        }
-      } catch (e) {}
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Save to shared storage
+  // Save to Firebase
   const save = useCallback(async (newAssignments) => {
     try {
-      await window.storage.set("trip-planner-buckets", JSON.stringify(newAssignments), true);
+      await set(ref(db, "tripPlanner/assignments"), newAssignments);
       setLastSaved(new Date());
     } catch (e) {
-      console.error("Save failed:", e);
+      console.error("Firebase save failed:", e);
     }
   }, []);
 
@@ -303,8 +424,12 @@ export default function TripPlanner() {
     setShowWarning(false);
     setWarningDismissed(false);
     setSelectedId(null);
+    setShowScratch(false);
+    setScratchVisible(false);
+    setPrizeRevealed(false);
+    setShowPrizeConfetti(false);
     try {
-      await window.storage.set("trip-planner-buckets", JSON.stringify({}), true);
+      await set(ref(db, "tripPlanner/assignments"), {});
       setLastSaved(new Date());
     } catch (e) {}
   };
@@ -472,6 +597,10 @@ export default function TripPlanner() {
         @keyframes iconShake { 0%,100%{transform:rotate(0deg)} 15%{transform:rotate(-8deg)} 30%{transform:rotate(8deg)} 45%{transform:rotate(-5deg)} 60%{transform:rotate(5deg)} 75%{transform:rotate(-2deg)} }
         @keyframes barFill { from { width:0; } to { width:100%; } }
         @keyframes lockPulse { 0%,100% { box-shadow: 0 6px 28px rgba(212,175,55,0.3); } 50% { box-shadow: 0 8px 36px rgba(212,175,55,0.5); } }
+        @keyframes heartFall { 0%{transform:translateY(0) translateX(0) rotate(0deg) scale(.5);opacity:0}10%{opacity:1;transform:translateY(5vh) translateX(var(--wobble)) rotate(20deg) scale(1)}50%{opacity:.9;transform:translateY(50vh) translateX(calc(var(--drift)*.5)) rotate(calc(var(--rotation)*.5)) scale(.9)}100%{opacity:0;transform:translateY(115vh) translateX(var(--drift)) rotate(var(--rotation)) scale(.6)} }
+        @keyframes prizeReveal { 0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.15) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1} }
+        @keyframes pianoFloat { 0%,100%{transform:translateY(0px) scale(1)}50%{transform:translateY(-10px) scale(1.03)} }
+        @keyframes shimmerGreen { 0%{background-position:-200% center}100%{background-position:200% center} }
         @keyframes bootLine { from { opacity:0; transform:translateX(-5px); } to { opacity:1; transform:translateX(0); } }
         @keyframes scanMove { 0% { top:-2px; } 100% { top:100%; } }
         @keyframes inputPulse { 0%,100% { border-color:rgba(0,255,70,.12); } 50% { border-color:rgba(0,255,70,.22); } }
@@ -582,8 +711,8 @@ export default function TripPlanner() {
           alignItems: "center",
           gap: 12,
         }}>
-          {/* Lock it in button - shows when all assigned but not yet confirmed */}
-          {totalAssigned === ALL_EVENTS.length && !warningDismissed && (
+          {/* Lock it in button - shows when at least one event is placed */}
+          {totalAssigned > 0 && !warningDismissed && (
             <>
               <button
                 onClick={() => setShowWarning(true)}
@@ -625,7 +754,7 @@ export default function TripPlanner() {
             </>
           )}
 
-          {totalAssigned === ALL_EVENTS.length && warningDismissed && (
+          {totalAssigned > 0 && warningDismissed && (
             <div style={{
               fontFamily: "'Nunito', sans-serif",
               fontSize: 15,
@@ -643,7 +772,6 @@ export default function TripPlanner() {
         {/* WARNING MODAL */}
         {showWarning && (
           <div
-            onClick={() => { setShowWarning(false); setWarningDismissed(true); }}
             style={{
               position: "fixed", inset: 0, zIndex: 9999,
               background: "rgba(0,0,0,0.7)",
@@ -704,7 +832,7 @@ export default function TripPlanner() {
                   lineHeight: 1.3,
                   marginBottom: 14,
                 }}>
-                  All activities assigned.
+                  You've made your picks.
                 </div>
                 <div style={{
                   fontFamily: "'Nunito', sans-serif",
@@ -744,7 +872,7 @@ export default function TripPlanner() {
 
                 {/* Confirm button */}
                 <button
-                  onClick={() => { setShowWarning(false); setWarningDismissed(true); }}
+                  onClick={() => { setShowWarning(false); setWarningDismissed(true); setShowScratch(true); }}
                   style={{
                     padding: "12px 36px",
                     background: "transparent",
@@ -859,6 +987,106 @@ export default function TripPlanner() {
             >
               Cancel
             </button>
+          </div>
+        )}
+
+        {/* SCRATCH CARD OVERLAY */}
+        {showScratch && !prizeRevealed && (
+          <div style={{
+            position: "fixed", inset: 0, zIndex: 9998,
+            background: "rgba(8,14,12,0.95)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            gap: 20, padding: 20,
+            animation: "fadeIn 0.6s ease-out",
+          }}>
+            <div style={{
+              opacity: scratchVisible ? 1 : 0,
+              transform: scratchVisible ? "translateY(0)" : "translateY(20px)",
+              transition: "all 1s cubic-bezier(.16,1,.3,1)",
+              display: "flex", flexDirection: "column", alignItems: "center", gap: 16,
+            }}>
+              <div style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(22px, 5vw, 34px)",
+                fontWeight: 600, fontStyle: "italic",
+                color: "#A8D5B0",
+                textAlign: "center",
+                animation: "softGlow 5s ease-in-out infinite",
+              }}>
+                One more thing...
+              </div>
+              <div style={{
+                fontSize: 15, color: "rgba(168,213,176,0.35)",
+                fontWeight: 300, textAlign: "center",
+              }}>
+                because you deserve it all
+              </div>
+              <ScratchCard onComplete={handleScratchComplete} />
+              <div style={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: 13, color: "rgba(168,213,176,0.25)",
+                textAlign: "center",
+              }}>
+                Use your finger or mouse to scratch
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PRIZE REVEALED OVERLAY */}
+        {prizeRevealed && (
+          <div style={{
+            position: "fixed", inset: 0, zIndex: 9998,
+            background: "rgba(8,14,12,0.95)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            gap: 16, padding: 20,
+            animation: "fadeIn 0.6s ease-out",
+          }}>
+            <HeartConfetti active={showPrizeConfetti} count={100} />
+            <div style={{
+              fontSize: "clamp(70px, 18vw, 120px)",
+              animation: "pianoFloat 3s ease-in-out infinite",
+              filter: "drop-shadow(0 8px 40px rgba(212,175,55,0.35))",
+            }}>
+              📞
+            </div>
+            <div style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "clamp(20px, 5vw, 36px)",
+              fontWeight: 700,
+              color: "rgba(168,213,176,0.85)",
+              letterSpacing: 2,
+            }}>
+              1-800-CALL-YOUR-MAN
+            </div>
+            <div style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(16px, 3vw, 21px)",
+              fontWeight: 300, fontStyle: "italic",
+              color: "rgba(168,213,176,0.5)",
+              maxWidth: 420, lineHeight: 1.8,
+              textAlign: "center",
+            }}>
+              For all emotional support needs, complaints about the cold,
+              late-night snack requests, and unlimited "I love you"s —
+              this line is open 24/7, just for you.
+            </div>
+            <div style={{
+              marginTop: 8, padding: "10px 28px",
+              border: "1px solid rgba(212,175,55,0.2)",
+              borderRadius: 40,
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 15, fontWeight: 500, fontStyle: "italic",
+              letterSpacing: 2, color: "rgba(212,175,55,0.6)",
+            }}>
+              🌿 always on the line for you 🌿
+            </div>
           </div>
         )}
       </div>
