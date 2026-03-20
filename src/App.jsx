@@ -1,42 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { db, ref, set, onValue } from "./firebase";
 
 // ============================================================
-// STORAGE LAYER — works in Claude preview, localStorage, or Firebase
-// For Firebase production, replace this block with:
-//
-//   import { db, ref, set, onValue } from "./firebase";
-//   const storage = {
-//     save: (data) => set(ref(db, "tripPlanner/assignments"), data),
-//     listen: (callback) => {
-//       return onValue(ref(db, "tripPlanner/assignments"), (snap) => callback(snap.val() || {}));
-//     },
-//   };
+// STORAGE LAYER — Firebase Realtime Database for cross-device sync
 // ============================================================
 const storage = {
-  save: async (data) => {
-    try {
-      if (window.storage && window.storage.set) {
-        await window.storage.set("trip-planner-320", JSON.stringify(data), true);
-      } else {
-        localStorage.setItem("trip-planner-320", JSON.stringify(data));
-      }
-    } catch (e) { localStorage.setItem("trip-planner-320", JSON.stringify(data)); }
-  },
+  save: (data) => set(ref(db, "tripPlanner/assignments"), data),
   listen: (callback) => {
-    const load = async () => {
-      try {
-        if (window.storage && window.storage.get) {
-          const r = await window.storage.get("trip-planner-320", true);
-          callback(r && r.value ? JSON.parse(r.value) : {});
-        } else {
-          const raw = localStorage.getItem("trip-planner-320");
-          callback(raw ? JSON.parse(raw) : {});
-        }
-      } catch (e) { callback({}); }
-    };
-    load();
-    const iv = setInterval(load, 3000);
-    return () => clearInterval(iv);
+    return onValue(ref(db, "tripPlanner/assignments"), (snap) => callback(snap.val() || {}));
   },
 };
 
