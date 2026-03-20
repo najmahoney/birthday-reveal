@@ -699,8 +699,8 @@ export default function TripPlanner() {
       <div style={{ minHeight:"100vh", background:BG, fontFamily:"'Nunito',sans-serif", color:"#E0F0E4", padding:"32px 16px 80px" }}>
         <div style={{ textAlign:"center", marginBottom:32, animation:"fadeIn .8s ease-out" }}>
           <div style={{ fontSize:13, letterSpacing:14, color:"rgba(125,184,138,.3)", marginBottom:12 }}>🌿 ♥ 🌿</div>
-          <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(28px,6vw,42px)", fontWeight:600, fontStyle:"italic", color:"#A8D5B0", animation:"softGlow 5s ease-in-out infinite", marginBottom:6 }}>Plan Our Weekend</h1>
-          <p style={{ fontSize:17, color:"rgba(168,213,176,.5)", marginBottom:20 }}>Drag or tap each activity, then tap a day to place it</p>
+          <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(28px,6vw,42px)", fontWeight:600, fontStyle:"italic", color:"#A8D5B0", animation:"softGlow 5s ease-in-out infinite", marginBottom:6 }}>Plan The Weekend</h1>
+          <p style={{ fontSize:17, color:"rgba(168,213,176,.5)", marginBottom:20 }}>Tap each activity, then tap a day to place it</p>
           <div style={{ maxWidth:360, margin:"0 auto" }}>
             <div style={{ height:3, background:"rgba(125,184,138,.08)", borderRadius:2, overflow:"hidden" }}>
               <div style={{ height:"100%", width:pct+"%", background:"linear-gradient(90deg,#5B9E6F,#A8D5B0,#D4AF37)", borderRadius:2, transition:"width .5s" }} />
@@ -758,7 +758,7 @@ export default function TripPlanner() {
               </div>
               <div style={{ padding:"28px 24px 24px", textAlign:"center" }}>
                 <div style={{ fontSize:24, fontWeight:700, color:"#D4C090", lineHeight:1.3, marginBottom:14 }}>You've made your picks.</div>
-                <div style={{ fontSize:16, color:"rgba(200,220,205,.6)", lineHeight:1.7, marginBottom:10 }}>No take-backs — you're standing on your picks.<br/>I hope you're ready for this weekend.</div>
+                <div style={{ fontSize:16, color:"rgba(200,220,205,.6)", lineHeight:1.7, marginBottom:10 }}>Now, you're confirming this, you need to stand 10 toes<br/>Let's enjoy chapter 32.</div>
                 <div style={{ fontSize:14, color:"rgba(168,213,176,.4)", marginBottom:24 }}>🌿 it's going to be perfect 🌿</div>
                 <div style={{ height:2, background:"rgba(212,175,55,.08)", borderRadius:1, overflow:"hidden", marginBottom:20 }}>
                   <div style={{ height:"100%", background:"linear-gradient(90deg,#D4AF37,#A8D5B0)", borderRadius:1, animation:"barFill 2s ease-out forwards" }} />
@@ -790,7 +790,7 @@ export default function TripPlanner() {
               style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16, background:"rgba(125,184,138,.04)", border:"1px solid rgba(125,184,138,.1)", borderRadius:24, padding:"40px 32px 32px", maxWidth:440, width:"100%", cursor:"default" }}>
               <div style={{ fontSize:"clamp(60px,16vw,100px)", animation:"pianoFloat 3s ease-in-out infinite", filter:"drop-shadow(0 8px 40px rgba(212,175,55,.35))" }}>📞</div>
               <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:"clamp(18px,4.5vw,30px)", fontWeight:700, color:"rgba(168,213,176,.85)", letterSpacing:2, textAlign:"center" }}>1-800-CALL-YOUR-MAN</div>
-              <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(15px,3vw,19px)", fontWeight:300, fontStyle:"italic", color:"rgba(168,213,176,.5)", lineHeight:1.8, textAlign:"center" }}>For all emotional support needs, complaints about the cold, late-night snack requests, and unlimited "I love you"s — this line is open 24/7, just for you.</div>
+              <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(15px,3vw,19px)", fontWeight:300, fontStyle:"italic", color:"rgba(168,213,176,.5)", lineHeight:1.8, textAlign:"center" }}></div>
               <div style={{ padding:"8px 24px", border:"1px solid rgba(125,184,138,.12)", borderRadius:40, fontFamily:"'Cormorant Garamond',serif", fontSize:14, fontWeight:500, fontStyle:"italic", letterSpacing:2, color:"rgba(168,213,176,.45)" }}>🌿 always on the line for you 🌿</div>
             </div>
           </div>
