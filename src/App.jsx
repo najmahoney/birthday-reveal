@@ -422,7 +422,7 @@ const CSS = `
 
 const BG = "linear-gradient(160deg,#0a1210,#0d1a14,#0a1610,#081310,#060f0b)";
 
-const SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
+const SESSION_DURATION = 5 * 60 * 1000; // 5 minutes
 
 function checkSession() {
   try {
