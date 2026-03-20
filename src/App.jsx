@@ -44,15 +44,24 @@ const storage = {
 // DATA
 // ============================================================
 const ALL_EVENTS = [
-  { id: "art", emoji: "🎨", title: "The Art Institute of Chicago", time: "~2.5 hrs", tag: "Art" },
-  { id: "cultural", emoji: "🏛️", title: "Chicago Cultural Center", time: "~45 min", tag: "Culture" },
-  { id: "goat", emoji: "🍽️", title: "Girl & The Goat", time: "~1.5 hrs", tag: "Dinner" },
-  { id: "dots", emoji: "🍹", title: "Three Dots and a Dash", time: "~1 hr", tag: "Cocktails" },
-  { id: "gus", emoji: "🥃", title: "Gus' Sip & Dip", time: "~1 hr", tag: "Cocktails" },
-  { id: "batter", emoji: "🥞", title: "Batter & Berries", time: "~1 hr", tag: "Brunch" },
-  { id: "illusions", emoji: "🪞", title: "Museum of Illusions", time: "~1 hr", tag: "Fun" },
-  { id: "bean", emoji: "☁️", title: "Millennium Park & The Bean", time: "~45 min", tag: "Sightseeing" },
-  { id: "magnolia", emoji: "🧁", title: "Magnolia Bakery", time: "~20 min", tag: "Sweets" },
+  { id: "cleos", emoji: "🍗", title: "Cleo's Southern Cuisine", time: "~1 hr", tag: "Soul Food", info: "Famous fried catfish and chicken wings in Lakeview. The honey butter muffins are a must. Casual counter-service spot — small but packed with flavor.", lat: 41.9331, lng: -87.6597, phone: "(773) 799-8509", address: "2826 N Lincoln Ave" },
+  { id: "alice", emoji: "🧢", title: "Alice & Wonder", time: "~45 min", tag: "Shopping", info: "Pick out a hat and customize it with patches — a fun, trendy Chicago souvenir. Great for couples. Two locations: State St and Webster Ave.", lat: 41.8928, lng: -87.6279, phone: "(872) 329-0423", address: "611 N State St" },
+  { id: "giordanos", emoji: "🍕", title: "Giordano's", time: "~1.5 hrs", tag: "Deep Dish", info: "Legendary Chicago deep dish pizza. Thick, cheesy, and worth the 45-minute bake time. Multiple locations downtown — the one near Millennium Park is solid.", lat: 41.8851, lng: -87.6238, phone: "(312) 616-1200", address: "130 E Randolph St" },
+  { id: "casa", emoji: "🌮", title: "Casa Tequila", time: "~1.5 hrs", tag: "Mexican", info: "Vibrant Mexican restaurant on Division St. Known for their steaks and margaritas. The birria tacos and ribeye are popular picks. Lively atmosphere.", lat: 41.9031, lng: -87.6767, phone: "(773) 360-1896", address: "1949 W Division St" },
+  { id: "soul", emoji: "🎵", title: "Soul Vibez", time: "~1.5 hrs", tag: "Soul Food", info: "Soul food with a modern twist in River North. The lamb chops and jerk chicken egg rolls are standouts. Great vibe, great cocktails, vegan options too.", lat: 41.8968, lng: -87.6353, phone: "(872) 342-2026", address: "226 W Chicago Ave" },
+  { id: "kitchen", emoji: "🍳", title: "The Kitchen", time: "~1.5 hrs", tag: "Bistro", info: "American bistro right on the Chicago River. Amazing brunch with banana waffles and great cocktails. Beautiful patio views of the riverwalk.", lat: 41.8879, lng: -87.6313, phone: "(312) 836-1300", address: "316 N Clark St" },
+  { id: "stk", emoji: "🥩", title: "STK Chicago", time: "~2 hrs", tag: "Steakhouse", info: "Upscale steakhouse with a lounge vibe on Kinzie St. DJ, cocktails, and perfectly cooked steaks. The lobster mac and Brussels sprouts are a must. Great for a special night out.", lat: 41.8890, lng: -87.6286, phone: "(312) 340-5636", address: "9 W Kinzie St" },
+  { id: "wendella", emoji: "🚢", title: "Wendella Boat Tour", time: "~1.5 hrs", tag: "Tour", info: "The iconic Chicago architecture boat tour on the river. 90 minutes of stunning skyline views and fascinating history. Book the evening tour for city lights.", lat: 41.8892, lng: -87.6245, phone: "(312) 337-1446", address: "400 N Michigan Ave" },
+  { id: "navy", emoji: "🎡", title: "Navy Pier", time: "~2 hrs", tag: "Attraction", info: "Chicago's most famous landmark. Ride the Centennial Wheel, walk along Lake Michigan, grab food, and catch the fireworks on summer weekends.", lat: 41.8919, lng: -87.6051, phone: "(312) 595-7437", address: "600 E Grand Ave" },
+  { id: "skydeck", emoji: "🏙️", title: "Skydeck Chicago", time: "~1 hr", tag: "Views", info: "103 floors up Willis Tower. Step out onto The Ledge — a glass box 1,353 feet above the street. Stunning 360° views of the city. Go at sunset for the best experience.", lat: 41.8789, lng: -87.6359, phone: "(312) 875-9447", address: "233 S Wacker Dr" },
+  { id: "wakenbake", emoji: "☕", title: "Wake N Bakery", time: "~30 min", tag: "Coffee", info: "Chill coffee shop with infused lattes, edibles, and baked goods. Cozy graffiti-art interior and super friendly staff. Perfect morning stop or afternoon pick-me-up.", lat: 41.8935, lng: -87.6266, phone: "(312) 405-3608", address: "38 E Ontario St" },
+  { id: "bean", emoji: "☁️", title: "Cloud Gate (The Bean)", time: "~30 min", tag: "Sightseeing", info: "Chicago's most iconic photo op in Millennium Park. Walk underneath the giant mirrored sculpture for stunning skyline reflections. Open daily.", lat: 41.8827, lng: -87.6233, address: "201 E Randolph St" },
+  { id: "riverwalk", emoji: "🌊", title: "Chicago Riverwalk", time: "~1 hr", tag: "Walk", info: "Beautiful waterfront path along the river with cafés, bars, and boat launches. Perfect for a romantic stroll. Completely different vibe at night with city lights.", lat: 41.8885, lng: -87.6232, address: "Along the Chicago River" },
+  { id: "artinst", emoji: "🎨", title: "Art Institute of Chicago", time: "~2.5 hrs", tag: "Museum", info: "World-class art museum with Monet, Van Gogh, and the famous American Gothic. One of the best museums in the country. Right next to Millennium Park.", lat: 41.8796, lng: -87.6224, phone: "(312) 443-3600", address: "111 S Michigan Ave" },
+  { id: "360chi", emoji: "🌆", title: "360 CHICAGO", time: "~1 hr", tag: "Views", info: "94th floor of the Hancock Building. TILT lets you lean out over Michigan Ave. Stunning lake and skyline views, plus a cocktail bar at the top.", lat: 41.8990, lng: -87.6232, phone: "(888) 875-8439", address: "875 N Michigan Ave" },
+  { id: "illusions", emoji: "🪞", title: "Museum of Illusions", time: "~1 hr", tag: "Fun", info: "Interactive optical illusions, infinity mirrors, and the giant/tiny room. Great couple photos and TikTok content. Fun, trippy, and about an hour.", lat: 41.8830, lng: -87.6268, phone: "(720) 769-6505", address: "25 E Washington St" },
+  { id: "drifter", emoji: "🎭", title: "The Drifter", time: "~1.5 hrs", tag: "Speakeasy", info: "Hidden speakeasy below The Green Door Tavern. Craft cocktails, dimly lit freak-show cabaret vibes, and surprise live performances. Get on the waitlist early.", lat: 41.8946, lng: -87.6374, phone: "(312) 631-3887", address: "676 N Orleans St" },
+  { id: "iotheater", emoji: "😂", title: "The iO Theater", time: "~2 hrs", tag: "Comedy", info: "Legendary improv comedy theater. Free shows on Wednesdays. The Improvised Shakespeare show is a must — hilarious and wildly creative. Great bar and cheap drinks.", lat: 41.9085, lng: -87.6518, phone: "(312) 300-3350", address: "1501 N Kingsbury St" },
 ];
 
 const BUCKETS = [
@@ -98,68 +107,59 @@ function Confetti({ active }) {
 }
 
 // ============================================================
-// SCRATCH CARD
+// TAP REVEAL — three taps to unwrap the prize
 // ============================================================
-function ScratchCard({ onComplete }) {
-  const cvs = useRef(null);
-  const drawing = useRef(false);
-  const done = useRef(false);
-  const [rev, setRev] = useState(false);
-  const W = 320, H = 220;
+function TapReveal({ onComplete }) {
+  const [taps, setTaps] = useState(0);
+  const [shaking, setShaking] = useState(false);
 
-  useEffect(() => {
-    const c = cvs.current; if (!c) return;
-    const x = c.getContext("2d");
-    c.width = W*2; c.height = H*2; x.scale(2,2);
-    const g = x.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,"#2a3a2e"); g.addColorStop(.5,"#1e2e22"); g.addColorStop(1,"#1a2a1e");
-    x.fillStyle = g; x.fillRect(0,0,W,H);
-    for (let i=0;i<100;i++) {
-      x.fillStyle = `rgba(${180+Math.random()*70},${200+Math.random()*50},${160+Math.random()*50},${.03+Math.random()*.05})`;
-      x.beginPath(); x.arc(Math.random()*W, Math.random()*H, .5+Math.random()*1.5, 0, Math.PI*2); x.fill();
-    }
-    x.fillStyle = "rgba(168,213,176,.5)"; x.font = "600 13px sans-serif"; x.textAlign = "center";
-    x.fillText("SCRATCH TO REVEAL", W/2, H/2-10);
-    x.fillStyle = "rgba(168,213,176,.25)"; x.font = "400 11px sans-serif";
-    x.fillText("one more surprise...", W/2, H/2+14);
-  }, []);
-
-  const pos = useCallback((e) => {
-    const r = cvs.current.getBoundingClientRect();
-    const t = e.touches ? e.touches[0] : e;
-    return { x:(t.clientX-r.left)*(W/r.width), y:(t.clientY-r.top)*(H/r.height) };
-  }, []);
-
-  const scratch = useCallback((p) => {
-    const c = cvs.current; if (!c) return;
-    const x = c.getContext("2d");
-    x.globalCompositeOperation = "destination-out";
-    x.beginPath(); x.arc(p.x*2, p.y*2, 36, 0, Math.PI*2); x.fill();
-    x.globalCompositeOperation = "source-over";
-    const d = x.getImageData(0,0,W*2,H*2); let t=0;
-    for (let i=3;i<d.data.length;i+=4) if(d.data[i]===0) t++;
-    if ((t/(d.data.length/4))*100 > 45 && !done.current) {
-      done.current = true; setRev(true);
-      setTimeout(() => { x.clearRect(0,0,W*2,H*2); onComplete?.(); }, 600);
-    }
-  }, [onComplete]);
-
-  const onS = useCallback((e) => { e.preventDefault(); drawing.current=true; scratch(pos(e)); }, [pos,scratch]);
-  const onM = useCallback((e) => { e.preventDefault(); if(!drawing.current)return; scratch(pos(e)); }, [pos,scratch]);
-  const onE = useCallback(() => { drawing.current=false; }, []);
+  const handleTap = () => {
+    setShaking(true);
+    setTimeout(() => setShaking(false), 600);
+    setTaps(prev => {
+      const next = prev + 1;
+      if (next >= 3) {
+        setTimeout(() => onComplete?.(), 500);
+      }
+      return next;
+    });
+  };
 
   return (
-    <div style={{ position:"relative", width:W, height:H, borderRadius:16, overflow:"hidden",
-      boxShadow: rev ? "0 0 60px rgba(212,175,55,.3)" : "0 8px 40px rgba(0,0,0,.4)", transition:"box-shadow .8s",
-    }}>
-      <div style={{ position:"absolute", inset:0, background:"linear-gradient(145deg,#0f1a14,#142018)", border:"1px solid rgba(212,175,55,.2)", borderRadius:16, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:6 }}>
-        <div style={{ fontSize:52, filter:"drop-shadow(0 4px 20px rgba(212,175,55,.4))", animation:rev?"prizeReveal .8s cubic-bezier(.16,1,.3,1)":"none" }}>📞</div>
-        <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:22, fontWeight:600, color:"rgba(168,213,176,.8)", letterSpacing:2 }}>1-800-CALL-YOUR-MAN</div>
-        <div style={{ fontFamily:"sans-serif", fontSize:13, fontStyle:"italic", color:"rgba(168,213,176,.4)", letterSpacing:1, opacity:rev?1:0, transition:"opacity .6s .5s" }}>open 24/7, just for you</div>
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
+      <div
+        onClick={handleTap}
+        style={{
+          width:180, height:180, borderRadius:24,
+          background:"linear-gradient(145deg, rgba(125,184,138,.08), rgba(125,184,138,.03))",
+          border:"1px solid rgba(125,184,138,.15)",
+          display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+          cursor:"pointer", userSelect:"none", WebkitUserSelect:"none",
+          transition:"all .3s",
+          animation: shaking ? "giftShake .6s ease-in-out" : "giftFloat 3s ease-in-out infinite",
+          boxShadow: taps >= 2 ? "0 0 40px rgba(212,175,55,.2)" : taps >= 1 ? "0 0 25px rgba(125,184,138,.15)" : "0 8px 30px rgba(0,0,0,.3)",
+        }}
+      >
+        <span style={{ fontSize:64, filter:"drop-shadow(0 4px 15px rgba(125,184,138,.3))", transition:"transform .3s", transform: taps >= 2 ? "scale(1.15)" : taps >= 1 ? "scale(1.08)" : "scale(1)" }}>🎁</span>
       </div>
-      <canvas ref={cvs} style={{ position:"absolute", inset:0, width:W, height:H, borderRadius:16, cursor:"crosshair", touchAction:"none", opacity:rev?0:1, transition:"opacity .6s" }}
-        onMouseDown={onS} onMouseMove={onM} onMouseUp={onE} onMouseLeave={onE}
-        onTouchStart={onS} onTouchMove={onM} onTouchEnd={onE} />
+
+      {/* Tap progress hearts */}
+      <div style={{ display:"flex", gap:14, alignItems:"center" }}>
+        {[0,1,2].map(i => (
+          <div key={i} style={{
+            width:12, height:12, borderRadius:"50%",
+            background: taps > i ? "#7DB88A" : "transparent",
+            border: taps > i ? "2px solid #7DB88A" : "2px solid rgba(125,184,138,.2)",
+            boxShadow: taps > i ? "0 0 10px rgba(125,184,138,.4)" : "none",
+            transition:"all .3s cubic-bezier(.34,1.56,.64,1)",
+            transform: taps > i ? "scale(1.2)" : "scale(1)",
+          }} />
+        ))}
+      </div>
+
+      <div style={{ fontSize:14, color:"rgba(168,213,176,.3)", textAlign:"center" }}>
+        {taps === 0 ? "Tap the gift to reveal" : taps === 1 ? "Keep going..." : "One more tap..."}
+      </div>
     </div>
   );
 }
@@ -168,30 +168,59 @@ function ScratchCard({ onComplete }) {
 // EVENT CARD
 // ============================================================
 function Card({ ev, dragStart, dragging, selected, onSelect }) {
+  const [showInfo, setShowInfo] = useState(false);
   return (
-    <div draggable
-      onDragStart={e => { e.dataTransfer.setData("text/plain",ev.id); e.dataTransfer.effectAllowed="move"; dragStart(ev.id); }}
-      onDragEnd={() => dragStart(null)}
-      onClick={() => onSelect(ev.id)}
-      style={{
-        padding:"14px 16px", borderRadius:12, display:"flex", alignItems:"center", gap:12,
-        cursor:"grab", transition:"all .2s", userSelect:"none", WebkitUserSelect:"none",
-        background: selected?"rgba(125,184,138,.15)":dragging?"rgba(125,184,138,.12)":"rgba(255,255,255,.03)",
-        border: selected?"1.5px solid rgba(125,184,138,.5)":dragging?"1px solid rgba(125,184,138,.3)":"1px solid rgba(255,255,255,.06)",
-        opacity: dragging?.5:1, transform: selected?"scale(1.02)":"none",
-        boxShadow: selected?"0 4px 20px rgba(125,184,138,.2)":"none",
-      }}
-    >
-      <span style={{ fontSize:24, flexShrink:0 }}>{ev.emoji}</span>
-      <div style={{ flex:1, minWidth:0 }}>
-        <div style={{ fontSize:15, fontWeight:600, color:selected?"#A8D5B0":"rgba(224,240,228,.95)", lineHeight:1.4, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{ev.title}</div>
-        <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:5 }}>
-          <span style={{ fontSize:13, color:"rgba(168,213,176,.55)" }}>{ev.time}</span>
-          <span style={{ fontSize:11, padding:"2px 10px", borderRadius:10, background:"rgba(125,184,138,.1)", color:"rgba(125,184,138,.6)", fontWeight:600 }}>{ev.tag}</span>
+    <div style={{ borderRadius:12, overflow:"hidden", transition:"all .2s" }}>
+      <div draggable
+        onDragStart={e => { e.dataTransfer.setData("text/plain",ev.id); e.dataTransfer.effectAllowed="move"; dragStart(ev.id); }}
+        onDragEnd={() => dragStart(null)}
+        onClick={() => onSelect(ev.id)}
+        style={{
+          padding:"14px 16px", display:"flex", alignItems:"center", gap:12,
+          cursor:"grab", userSelect:"none", WebkitUserSelect:"none",
+          background: selected?"rgba(125,184,138,.15)":dragging?"rgba(125,184,138,.12)":"rgba(255,255,255,.03)",
+          border: selected?"1.5px solid rgba(125,184,138,.5)":dragging?"1px solid rgba(125,184,138,.3)":"1px solid rgba(255,255,255,.06)",
+          borderRadius: showInfo?"12px 12px 0 0":"12px",
+          opacity: dragging?.5:1, transform: selected?"scale(1.02)":"none",
+          boxShadow: selected?"0 4px 20px rgba(125,184,138,.2)":"none",
+        }}
+      >
+        <span style={{ fontSize:24, flexShrink:0 }}>{ev.emoji}</span>
+        <div style={{ flex:1, minWidth:0 }}>
+          <div style={{ fontSize:15, fontWeight:600, color:selected?"#A8D5B0":"rgba(224,240,228,.95)", lineHeight:1.4, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{ev.title}</div>
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:5 }}>
+            <span style={{ fontSize:13, color:"rgba(168,213,176,.55)" }}>{ev.time}</span>
+            <span style={{ fontSize:11, padding:"2px 10px", borderRadius:10, background:"rgba(125,184,138,.1)", color:"rgba(125,184,138,.6)", fontWeight:600 }}>{ev.tag}</span>
+          </div>
+        </div>
+        <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
+          {selected && <span style={{ fontSize:12, color:"rgba(125,184,138,.6)", fontWeight:600 }}>TAP A DAY</span>}
+          <button
+            onClick={e => { e.stopPropagation(); setShowInfo(p => !p); }}
+            style={{
+              width:28, height:28, borderRadius:"50%", border:"none", cursor:"pointer",
+              background: showInfo?"rgba(125,184,138,.15)":"rgba(255,255,255,.05)",
+              color: showInfo?"rgba(125,184,138,.7)":"rgba(168,213,176,.3)",
+              fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center",
+              transition:"all .2s", flexShrink:0,
+            }}
+          >i</button>
         </div>
       </div>
-      {selected ? <span style={{ fontSize:12, color:"rgba(125,184,138,.6)", flexShrink:0, fontWeight:600 }}>TAP A DAY</span>
-        : <span style={{ fontSize:14, color:"rgba(168,213,176,.2)", flexShrink:0 }}>⠿</span>}
+      {showInfo && (
+        <div style={{
+          padding:"12px 16px 14px", fontSize:13, lineHeight:1.7,
+          color:"rgba(168,213,176,.5)", fontStyle:"italic",
+          background:"rgba(125,184,138,.04)",
+          borderLeft: selected?"1.5px solid rgba(125,184,138,.5)":"1px solid rgba(255,255,255,.06)",
+          borderRight: selected?"1.5px solid rgba(125,184,138,.5)":"1px solid rgba(255,255,255,.06)",
+          borderBottom: selected?"1.5px solid rgba(125,184,138,.5)":"1px solid rgba(255,255,255,.06)",
+          borderRadius:"0 0 12px 12px",
+          animation:"fadeIn .3s ease-out",
+        }}>
+          {ev.info}
+        </div>
+      )}
     </div>
   );
 }
@@ -244,6 +273,153 @@ function Bucket({ b, evs, onDrop, dragId, dragStart, selId, onSelect, onTap }) {
 }
 
 // ============================================================
+// VIEWER CARD — read-only with info toggle
+// ============================================================
+function ViewerCard({ ev }) {
+  const [showInfo, setShowInfo] = useState(false);
+  return (
+    <div style={{ borderRadius:12, overflow:"hidden" }}>
+      <div style={{ padding:"14px 16px", background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.06)", borderRadius: showInfo?"12px 12px 0 0":"12px", display:"flex", alignItems:"center", gap:12 }}>
+        <span style={{ fontSize:24 }}>{ev.emoji}</span>
+        <div style={{ flex:1 }}>
+          <div style={{ fontSize:15, fontWeight:600, color:"rgba(224,240,228,.95)" }}>{ev.title}</div>
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:5 }}>
+            <span style={{ fontSize:13, color:"rgba(168,213,176,.55)" }}>{ev.time}</span>
+            <span style={{ fontSize:11, padding:"2px 10px", borderRadius:10, background:"rgba(125,184,138,.1)", color:"rgba(125,184,138,.6)", fontWeight:600 }}>{ev.tag}</span>
+          </div>
+        </div>
+        <button onClick={() => setShowInfo(p => !p)}
+          style={{ width:28, height:28, borderRadius:"50%", border:"none", cursor:"pointer",
+            background: showInfo?"rgba(125,184,138,.15)":"rgba(255,255,255,.05)",
+            color: showInfo?"rgba(125,184,138,.7)":"rgba(168,213,176,.3)",
+            fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center",
+            transition:"all .2s", flexShrink:0,
+          }}>i</button>
+      </div>
+      {showInfo && (
+        <div style={{ padding:"12px 16px 14px", fontSize:13, lineHeight:1.7, color:"rgba(168,213,176,.5)", fontStyle:"italic",
+          background:"rgba(125,184,138,.04)", border:"1px solid rgba(255,255,255,.06)", borderTop:"none", borderRadius:"0 0 12px 12px", animation:"fadeIn .3s ease-out",
+        }}>{ev.info}</div>
+      )}
+    </div>
+  );
+}
+
+// ============================================================
+// MAP — Leaflet with OpenStreetMap (free, no API key)
+// ============================================================
+function TripMap({ events, assignments }) {
+  const mapRef = useRef(null);
+  const mapInstance = useRef(null);
+  const [mapReady, setMapReady] = useState(false);
+  const [mapError, setMapError] = useState(false);
+
+  useEffect(() => {
+    if (mapInstance.current || !mapRef.current) return;
+    try {
+      if (!document.getElementById("leaflet-css")) {
+        const link = document.createElement("link");
+        link.id = "leaflet-css"; link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        document.head.appendChild(link);
+      }
+      const loadMap = () => {
+        if (!window.L) {
+          const s = document.createElement("script");
+          s.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+          s.onload = () => initMap();
+          s.onerror = () => setMapError(true);
+          document.head.appendChild(s);
+        } else initMap();
+      };
+      const initMap = () => {
+        try {
+          const L = window.L;
+          const map = L.map(mapRef.current, { zoomControl: false, attributionControl: false }).setView([41.889, -87.634], 13);
+          L.control.zoom({ position: "bottomright" }).addTo(map);
+          L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(map);
+          mapInstance.current = map;
+          setMapReady(true);
+
+          // Track current location
+          if (navigator.geolocation) {
+            let locMarker = null;
+            const updateLoc = (pos) => {
+              const { latitude: lat, longitude: lng } = pos.coords;
+              if (locMarker) map.removeLayer(locMarker);
+              locMarker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                  className: "",
+                  html: `<div style="position:relative;width:16px;height:16px"><div style="position:absolute;inset:0;border-radius:50%;background:rgba(100,160,255,.3);animation:locPulse 2s ease-in-out infinite"></div><div style="position:absolute;top:4px;left:4px;width:8px;height:8px;border-radius:50%;background:#64A0FF;border:2px solid rgba(255,255,255,.8);box-shadow:0 0 8px rgba(100,160,255,.5)"></div></div>`,
+                  iconSize: [16, 16], iconAnchor: [8, 8],
+                }),
+                zIndexOffset: 1000,
+              }).addTo(map).bindPopup(
+                `<div style="font-family:'Nunito',sans-serif;font-size:13px;color:#c8e6cf;font-weight:600">You are here</div>`,
+                { className: "dark-popup", closeButton: false }
+              );
+            };
+            navigator.geolocation.getCurrentPosition(updateLoc, () => {}, { enableHighAccuracy: true });
+            navigator.geolocation.watchPosition(updateLoc, () => {}, { enableHighAccuracy: true, maximumAge: 10000 });
+          }
+        } catch (e) { setMapError(true); }
+      };
+      loadMap();
+    } catch (e) { setMapError(true); }
+  }, []);
+
+  useEffect(() => {
+    if (!mapReady || !mapInstance.current || !window.L) return;
+    try {
+      const L = window.L;
+      const map = mapInstance.current;
+      map.eachLayer(layer => { if (layer instanceof L.Marker) map.removeLayer(layer); });
+      const dayColors = { friday: "#D4AF37", saturday: "#7DB88A", sunday: "#5DCAA5" };
+      events.forEach(ev => {
+        if (!ev.lat || !ev.lng) return;
+        const day = assignments[ev.id];
+        const color = day ? dayColors[day] : "rgba(125,184,138,.25)";
+        const placed = !!day;
+        const sz = placed ? 28 : 22;
+        const icon = L.divIcon({
+          className: "",
+          html: `<div style="display:flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;border-radius:50%;background:rgba(10,18,14,.85);border:1.5px solid ${color};font-size:${placed?13:11}px;opacity:${placed?1:.45};transition:all .3s">${ev.emoji}</div>`,
+          iconSize: [sz, sz], iconAnchor: [sz/2, sz/2],
+        });
+        const apple = `https://maps.apple.com/?daddr=${ev.lat},${ev.lng}&dirflg=d`;
+        const google = `https://www.google.com/maps/dir/?api=1&destination=${ev.lat},${ev.lng}`;
+        const popup =
+          `<div style="font-family:'Nunito',sans-serif;font-size:12px;line-height:1.6;min-width:180px;max-width:240px">` +
+          `<div style="font-size:14px;font-weight:700;color:#c8e6cf;margin-bottom:4px">${ev.title}</div>` +
+          `<div style="color:rgba(168,213,176,.45);margin-bottom:6px">${ev.tag} · ${ev.time}</div>` +
+          (ev.address ? `<div style="color:rgba(168,213,176,.35);font-size:11px;margin-bottom:2px">${ev.address}</div>` : ``) +
+          (ev.phone ? `<a href="tel:${ev.phone.replace(/[^0-9+]/g,"")}" style="color:#7DB88A;font-size:11px;text-decoration:none;display:block;margin-bottom:6px">${ev.phone}</a>` : ``) +
+          `<div style="display:flex;gap:6px;margin-top:8px">` +
+          `<a href="${apple}" target="_blank" style="flex:1;text-align:center;padding:7px 0;background:rgba(125,184,138,.06);border:1px solid rgba(125,184,138,.12);border-radius:8px;color:#A8D5B0;font-size:11px;text-decoration:none;font-weight:600">Apple Maps</a>` +
+          `<a href="${google}" target="_blank" style="flex:1;text-align:center;padding:7px 0;background:rgba(125,184,138,.06);border:1px solid rgba(125,184,138,.12);border-radius:8px;color:#A8D5B0;font-size:11px;text-decoration:none;font-weight:600">Google Maps</a>` +
+          `</div></div>`;
+        L.marker([ev.lat, ev.lng], { icon }).addTo(map).bindPopup(popup, { className: "dark-popup", closeButton: false, maxWidth: 260 });
+      });
+    } catch (e) {}
+  }, [mapReady, events, assignments]);
+
+  if (mapError) return null;
+
+  return (
+    <div style={{ borderRadius:16, overflow:"hidden", border:"1px solid rgba(125,184,138,.08)" }}>
+      <style>{`.dark-popup .leaflet-popup-content-wrapper{background:rgba(12,20,16,.95);color:#c8e6cf;border:1px solid rgba(125,184,138,.1);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);padding:2px}.dark-popup .leaflet-popup-tip{background:rgba(12,20,16,.95);border:1px solid rgba(125,184,138,.1)}.dark-popup .leaflet-popup-content{margin:12px 14px}`}</style>
+      <div ref={mapRef} style={{ height:280, width:"100%", background:"#0d1a14" }} />
+      <div style={{ display:"flex", gap:14, justifyContent:"center", padding:"8px 16px", background:"rgba(10,18,14,.6)", fontSize:10, color:"rgba(168,213,176,.3)", letterSpacing:.5 }}>
+        <span><span style={{ display:"inline-block", width:6, height:6, borderRadius:"50%", background:"#D4AF37", marginRight:5, opacity:.9 }}/>Fri</span>
+        <span><span style={{ display:"inline-block", width:6, height:6, borderRadius:"50%", background:"#7DB88A", marginRight:5, opacity:.9 }}/>Sat</span>
+        <span><span style={{ display:"inline-block", width:6, height:6, borderRadius:"50%", background:"#5DCAA5", marginRight:5, opacity:.9 }}/>Sun</span>
+        <span><span style={{ display:"inline-block", width:5, height:5, borderRadius:"50%", border:"1px solid rgba(168,213,176,.3)", marginRight:5 }}/>Unplaced</span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
 // STYLES
 // ============================================================
 const CSS = `
@@ -266,18 +442,35 @@ const CSS = `
 @keyframes inputPulse{0%,100%{border-color:rgba(0,255,70,.12)}50%{border-color:rgba(0,255,70,.22)}}
 @keyframes errorFlash{0%,100%{border-color:rgba(255,60,60,.3)}50%{border-color:rgba(255,60,60,.7)}}
 @keyframes glitchShake{0%{transform:translate(0)}20%{transform:translate(-3px,2px)}40%{transform:translate(2px,-2px)}60%{transform:translate(-2px,1px)}80%{transform:translate(3px,-1px)}100%{transform:translate(0)}}
+@keyframes giftFloat{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.03) translateY(-6px)}}
+@keyframes giftShake{0%,100%{transform:rotate(0) scale(1)}12%{transform:rotate(-10deg) scale(1.06)}24%{transform:rotate(10deg) scale(1.1)}36%{transform:rotate(-7deg) scale(1.06)}48%{transform:rotate(7deg) scale(1.03)}60%{transform:rotate(-3deg) scale(1.01)}}
 @keyframes accessGranted{0%{opacity:0;transform:scale(.8)}50%{opacity:1;transform:scale(1.05);text-shadow:0 0 40px rgba(0,255,100,.6)}100%{opacity:1;transform:scale(1);text-shadow:0 0 20px rgba(0,255,100,.4)}}
 @keyframes fadeOutUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-30px)}}
+@keyframes locPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(2.2);opacity:0}}
 `;
 
 const BG = "linear-gradient(160deg,#0a1210,#0d1a14,#0a1610,#081310,#060f0b)";
+
+const SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
+
+function checkSession() {
+  try {
+    const ts = localStorage.getItem("op320-session");
+    if (ts && Date.now() - parseInt(ts) < SESSION_DURATION) return true;
+  } catch (e) {}
+  return false;
+}
+
+function saveSession() {
+  try { localStorage.setItem("op320-session", Date.now().toString()); } catch (e) {}
+}
 
 // ============================================================
 // MAIN COMPONENT
 // ============================================================
 export default function TripPlanner() {
   const [route, setRoute] = useState(window.location.hash);
-  const [stage, setStage] = useState("login");
+  const [stage, setStage] = useState(checkSession() ? "planner" : "login");
   const [asgn, setAsgn] = useState({});
   const [dragId, setDragId] = useState(null);
   const [selId, setSelId] = useState(null);
@@ -332,12 +525,12 @@ export default function TripPlanner() {
   }, []);
 
   const save = useCallback(async (d) => {
-    try { await storage.save(d); setSaved(new Date()); } catch(e) {}
+    try { await storage.save(d); setSaved(new Date()); saveSession(); } catch(e) {}
   }, []);
 
   const login = () => {
     if (inp.trim().toLowerCase() === "bus") {
-      setOk(true); setErr(false);
+      setOk(true); setErr(false); saveSession();
       setTimeout(() => setStage("planner"), 1800);
     } else { setErr(true); setInp(""); setTimeout(() => setErr(false), 2000); }
   };
@@ -386,6 +579,7 @@ export default function TripPlanner() {
         </div>
 
         <div style={{ maxWidth:600, margin:"0 auto", display:"flex", flexDirection:"column", gap:16 }}>
+          <TripMap events={ALL_EVENTS} assignments={asgn} />
           {DAYS.map((b, i) => {
             const c = C[b.color];
             const items = evFor(b.id);
@@ -404,16 +598,7 @@ export default function TripPlanner() {
                   </div>
                   <div style={{ padding:"8px 10px 10px", display:"flex", flexDirection:"column", gap:6 }}>
                     {items.map(ev => (
-                      <div key={ev.id} style={{ padding:"14px 16px", background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.06)", borderRadius:12, display:"flex", alignItems:"center", gap:12 }}>
-                        <span style={{ fontSize:24 }}>{ev.emoji}</span>
-                        <div>
-                          <div style={{ fontSize:15, fontWeight:600, color:"rgba(224,240,228,.95)" }}>{ev.title}</div>
-                          <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:5 }}>
-                            <span style={{ fontSize:13, color:"rgba(168,213,176,.55)" }}>{ev.time}</span>
-                            <span style={{ fontSize:11, padding:"2px 10px", borderRadius:10, background:"rgba(125,184,138,.1)", color:"rgba(125,184,138,.6)", fontWeight:600 }}>{ev.tag}</span>
-                          </div>
-                        </div>
-                      </div>
+                      <ViewerCard key={ev.id} ev={ev} />
                     ))}
                     {items.length === 0 && <div style={{ padding:"20px 16px", textAlign:"center", color:c.ht, fontSize:14, fontStyle:"italic", opacity:.5 }}>Nothing planned yet</div>}
                   </div>
@@ -434,16 +619,7 @@ export default function TripPlanner() {
                 </div>
                 <div style={{ padding:"8px 10px 10px", display:"flex", flexDirection:"column", gap:6 }}>
                   {unassigned.map(ev => (
-                    <div key={ev.id} style={{ padding:"14px 16px", background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.06)", borderRadius:12, display:"flex", alignItems:"center", gap:12 }}>
-                      <span style={{ fontSize:24 }}>{ev.emoji}</span>
-                      <div>
-                        <div style={{ fontSize:15, fontWeight:600, color:"rgba(224,240,228,.95)" }}>{ev.title}</div>
-                        <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:5 }}>
-                          <span style={{ fontSize:13, color:"rgba(168,213,176,.55)" }}>{ev.time}</span>
-                          <span style={{ fontSize:11, padding:"2px 10px", borderRadius:10, background:"rgba(125,184,138,.1)", color:"rgba(125,184,138,.6)", fontWeight:600 }}>{ev.tag}</span>
-                        </div>
-                      </div>
-                    </div>
+                    <ViewerCard key={ev.id} ev={ev} />
                   ))}
                 </div>
               </div>
@@ -566,6 +742,7 @@ export default function TripPlanner() {
         </div>
 
         <div style={{ maxWidth:600, margin:"0 auto", display:"flex", flexDirection:"column", gap:16 }}>
+          <TripMap events={ALL_EVENTS} assignments={asgn} />
           {BUCKETS.map((b,i) => (
             <div key={b.id} style={{ animation:`fadeIn .5s ${i*.1}s ease-out both` }}>
               <Bucket b={b} evs={evFor(b.id)} onDrop={drop} dragId={dragId} dragStart={setDragId} selId={selId} onSelect={select} onTap={tapBucket} />
@@ -579,7 +756,6 @@ export default function TripPlanner() {
               <button onClick={() => setWarn(true)} style={{ padding:"16px 48px", background:"linear-gradient(135deg,#D4AF37,#C49B30)", border:"none", borderRadius:40, fontSize:17, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:"#0a1210", cursor:"pointer", transition:"all .3s", boxShadow:"0 6px 28px rgba(212,175,55,.3)", animation:"fadeIn .6s ease-out,lockPulse 2.5s 1s ease-in-out infinite" }}
                 onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px) scale(1.03)";e.currentTarget.style.boxShadow="0 10px 36px rgba(212,175,55,.45)"}}
                 onMouseLeave={e=>{e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 6px 28px rgba(212,175,55,.3)"}}>LOCK IT IN</button>
-              <div style={{ fontSize:13, color:"rgba(168,213,176,.3)" }}>Happy with your choices? Make it official.</div>
             </>
           )}
           {locked && <div style={{ fontSize:15, fontWeight:500, color:"rgba(168,213,176,.5)", animation:"fadeIn .6s", padding:"10px 24px", border:"1px solid rgba(125,184,138,.1)", borderRadius:40 }}>🌿 locked in — no take-backs 🌿</div>}
@@ -587,8 +763,6 @@ export default function TripPlanner() {
             onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(168,213,176,.2)";e.currentTarget.style.color="rgba(168,213,176,.5)"}}
             onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(168,213,176,.08)";e.currentTarget.style.color="rgba(168,213,176,.3)"}}>reset all</button>
         </div>
-
-        <div style={{ textAlign:"center", marginTop:24, fontSize:12, color:"rgba(168,213,176,.25)", letterSpacing:1.5 }}>SHARED VIEW — CHANGES ARE VISIBLE TO EVERYONE WITH THIS LINK</div>
 
         {selId && (
           <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:100, background:"rgba(10,18,16,.95)", borderTop:"1px solid rgba(125,184,138,.2)", backdropFilter:"blur(10px)", padding:"12px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", animation:"fadeIn .2s" }}>
@@ -626,14 +800,13 @@ export default function TripPlanner() {
           </div>
         )}
 
-        {/* SCRATCH CARD */}
+        {/* TAP REVEAL */}
         {showScratch && !prizeReveal && (
           <div style={{ position:"fixed", inset:0, zIndex:9998, background:"rgba(8,14,12,.95)", backdropFilter:"blur(10px)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:20, padding:20, animation:"fadeIn .6s" }}>
             <div style={{ opacity:scratchVis?1:0, transform:scratchVis?"translateY(0)":"translateY(20px)", transition:"all 1s cubic-bezier(.16,1,.3,1)", display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
               <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(22px,5vw,34px)", fontWeight:600, fontStyle:"italic", color:"#A8D5B0", textAlign:"center", animation:"softGlow 5s ease-in-out infinite" }}>One more thing...</div>
               <div style={{ fontSize:15, color:"rgba(168,213,176,.35)", textAlign:"center" }}>because you deserve it all</div>
-              <ScratchCard onComplete={scratchDone} />
-              <div style={{ fontSize:13, color:"rgba(168,213,176,.25)", textAlign:"center" }}>Use your finger or mouse to scratch</div>
+              <TapReveal onComplete={scratchDone} />
             </div>
           </div>
         )}
