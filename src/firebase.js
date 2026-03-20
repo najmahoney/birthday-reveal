@@ -6,13 +6,13 @@ import { getDatabase, ref, set, onValue } from "firebase/database";
 // Get it from: Firebase Console → Project Settings → Your Apps → Web
 // ========================================
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCpLhkDbFEQh9XNfQEfGOfE8BPcRhAEf0A",
+  authDomain: "birthday-trip-planner.firebaseapp.com",
+  databaseURL: "https://birthday-trip-planner-default-rtdb.firebaseio.com",
+  projectId: "birthday-trip-planner",
+  storageBucket: "birthday-trip-planner.firebasestorage.app",
+  messagingSenderId: "1037760808515",
+  appId: "1:1037760808515:web:3235dc85e80761ba6376f6"
 };
 
 const app = initializeApp(firebaseConfig);
